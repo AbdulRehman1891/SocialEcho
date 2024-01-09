@@ -3,8 +3,11 @@ const Rule = require("../models/rule.model");
 const User = require("../models/user.model");
 const Report = require("../models/report.model");
 const dayjs = require("dayjs");
+const jwt = require("jsonwebtoken");
 const relativeTime = require("dayjs/plugin/relativeTime");
 dayjs.extend(relativeTime);
+
+
 
 const getCommunities = async (req, res) => {
   try {
