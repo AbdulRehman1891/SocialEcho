@@ -16,7 +16,7 @@ dayjs.extend(duration);
  */
 const getPublicUsers = async (req, res) => {
   try {
-    // modified refactored code
+    // Refactored version
     const userId = req.userId;
 
     const followingIds = await Relationship.find({ follower: userId }).distinct(
