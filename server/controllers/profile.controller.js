@@ -5,8 +5,8 @@ const Community = require("../models/community.model");
 const dayjs = require("dayjs");
 const duration = require("dayjs/plugin/duration");
 const mongoose = require("mongoose");
-
 dayjs.extend(duration);
+
 
 /**
  * Retrieves up to 5 public users that the current user is not already following,
@@ -16,57 +16,8 @@ dayjs.extend(duration);
  */
 const getPublicUsers = async (req, res) => {
   try {
-    const userId = req.userId;
-
-    const followingIds = await Relationship.find({ follower: userId }).distinct(
-      "following"
-    );
-
-    const userIdObj = mongoose.Types.ObjectId(userId);
-
-    const excludedIds = [...followingIds, userIdObj];
-
-    const usersToDisplay = await User.aggregate([
-      {
-        $match: {
-          _id: { $nin: excludedIds },
-          role: { $ne: "moderator" },
-        },
-      },
-      {
-        $project: {
-          _id: 1,
-          name: 1,
-          avatar: 1,
-          location: 1,
-        },
-      },
-      {
-        $lookup: {
-          from: "relationships",
-          localField: "_id",
-          foreignField: "following",
-          as: "followers",
-        },
-      },
-      {
-        $project: {
-          _id: 1,
-          name: 1,
-          avatar: 1,
-          location: 1,
-          followerCount: { $size: "$followers" },
-        },
-      },
-      {
-        $sort: { followerCount: -1 },
-      },
-      {
-        $limit: 5,
-      },
-    ]);
-
-    res.status(200).json(usersToDisplay);
+    // modified refactored code
+   
   } catch (error) {
     res.status(500).json({ message: "An error occurred" });
   }
