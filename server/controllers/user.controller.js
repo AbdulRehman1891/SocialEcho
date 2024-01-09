@@ -17,11 +17,7 @@ const LOG_TYPE = {
   LOGOUT: "logout",
 };
 
-const LEVEL = {
-  INFO: "info",
-  ERROR: "error",
-  WARN: "warn",
-};
+
 
 const MESSAGE = {
   SIGN_IN_ATTEMPT: "User attempting to sign in",
@@ -33,6 +29,11 @@ const MESSAGE = {
   MULTIPLE_ATTEMPT_WITHOUT_VERIFY:
     "Multiple sign in attempts detected without verifying identity.",
   LOGOUT_SUCCESS: "User has logged out successfully",
+  LEVEL:{
+    INFO: "info",
+    ERROR: "error",
+    WARN: "warn",
+  }
 };
 
 const signin = async (req, res, next) => {
