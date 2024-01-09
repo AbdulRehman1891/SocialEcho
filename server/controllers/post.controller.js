@@ -11,6 +11,7 @@ const Relationship = require("../models/relationship.model");
 const Report = require("../models/report.model");
 const PendingPost = require("../models/pendingPost.model");
 const fs = require("fs");
+const { handleFileDeletion, populatePostData, formatPost, sendErrorResponse, CONSTANTS } = require('../utils');
 
 const createPost = async (req, res) => {
   try {
@@ -48,18 +49,10 @@ const createPost = async (req, res) => {
     const savedPost = await newPost.save();
     const postId = savedPost._id;
 
-    const post = await Post.findById(postId)
-      .populate("user", "name avatar")
-      .populate("community", "name")
-      .lean();
-
-    post.createdAt = dayjs(post.createdAt).fromNow();
-
-    res.json(post);
+    const post = await populatePostData(newPost._id);
+    res.json(formatPost(post));
   } catch (error) {
-    res.status(500).json({
-      message: "Error creating post",
-    });
+    sendErrorResponse(res, 500, CONSTANTS.ERROR_MESSAGES.createPost);
   }
 };
 
